@@ -1,0 +1,16 @@
+input,
+label,
+button {
+    display: block;
+    margin-top: 5px;
+}
+
+.container {
+    margin-top: 10px;
+}
+
+#confirmForm>button {
+    display: inline-block;
+    background-color: aquamarine;
+    margin-right: 15px;
+}

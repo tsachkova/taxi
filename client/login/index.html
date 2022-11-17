@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="/login" method="post" id='auth'>
+        <legend>Аутентификация</legend>
+        <label for="login">Имя пользователя</label><input type="text" name="username" id="login" form="auth">
+        <label for="password">Пароль</label><input type="text" name="password" id="password" form="auth">
+        <button type="submit" id='submit' form="auth">Отправить</button>
+
+    </form>
+</body>
+
+</html>
