@@ -118,14 +118,22 @@
                 }
             }
         },
-        "/cars:{number}": {
+        "/cars/{number}": {
             "get": {
                 "summary": "Get car by nunber",
                 "description": "Get car by number",
                 "produces": [
                     "application/json"
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "path",
+                        "description": "car name that needs",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -145,7 +153,7 @@
                 }
             }
         },
-        "/cars:{id}": {
+        "/cars/{id}": {
             "put": {
                 "summary": "Update the car",
                 "description": "Update the car",
@@ -289,7 +297,7 @@
                 }
             }
         },
-        "/drivers:{name}": {
+        "/drivers/{name}": {
             "get": {
                 "summary": "Get driver by name",
                 "description": "Get driver by name",
@@ -316,7 +324,7 @@
                 }
             }
         },
-        "/drivers:{id}": {
+        "/drivers/{id}": {
             "put": {
                 "summary": "Update the driver",
                 "description": "Update the driver",

@@ -17,10 +17,12 @@ class GettingData {
     }
 
     getData(task) {
-        let rout = this.rout + ':' + this.name;
+        let rout = this.rout + '/' + this.name;
         let response = request(rout, 'GET');
 
+
         response.then(res => {
+
             if (res.length > 1) {
                 driversNamesakes = res;
 
@@ -62,7 +64,7 @@ class GettingData {
         if (editedDriverData.cars.length) {
             for (let i = 0; i < editedDriverData.cars.length; i++) {
 
-                let car = request(`/api/cars:${editedDriverData.cars[i]}`, 'GET');
+                let car = request(`/api/cars/${editedDriverData.cars[i]}`, 'GET');
                 car.then(res => {
                     createEditedDriverCarPage();
 
@@ -147,7 +149,7 @@ class GettingData {
     }
 
     deleteRequest(id) {
-        let deleteResponse = request(this.rout + `:${id}`, 'DELETE');
+        let deleteResponse = request(this.rout + '/' + `${id}`, 'DELETE');
 
         deleteResponse.then(res => {
             if (res) {

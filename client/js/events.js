@@ -115,7 +115,6 @@ document.body.addEventListener('click', (event) => {
             return;
         }
 
-
         if (event.target.closest('#container').querySelector('legend').textContent == 'Редактировать данные водителя') {
             let lastName = document.querySelector('#searchData').value;
 
@@ -124,8 +123,6 @@ document.body.addEventListener('click', (event) => {
             new GettingData('/api/drivers', lastName).showEditedDriverData('Редактирование');
             return;
         }
-
-
 
         if (event.target.closest('#container').querySelector('legend').textContent == 'Редактировать данные машины') {
             let number = document.querySelector('#searchData').value;
@@ -149,21 +146,5 @@ document.body.addEventListener('click', (event) => {
 
     if (event.target.className === 'deleteDriversCare') {
         event.target.closest('fieldset').outerHTML = '';
-    }
-
-    if (event.target.id === 'allCars') {
-        let result = (async function () {
-            return await request('/api/cars', 'GET');
-        })();
-
-        result.then(res => console.log(res));
-    }
-
-    if (event.target.id === 'allDrivers') {
-        let result = (async function () {
-            return await request('/api/drivers', 'GET');
-        })();
-
-        result.then(res => console.log(res))
     }
 })

@@ -63,7 +63,6 @@ const auth = (req, res, next) => {
         if (RegExp(sessionFiles[i].match(/.+(?=.json)/)).test(req.headers['cookie'])) {
             return next();
         }
-
     }
     return res.redirect('/api/login');
 }
@@ -81,7 +80,6 @@ app.get('/api/drivers', auth, (req, res) => {
 })
 
 app.post('/api/cars', auth, (req, res) => {
-
     const car = { ...req.body, id: v4() };
     CARS.push(car);
     res.status(201).json({ car });
@@ -93,34 +91,34 @@ app.post('/api/drivers', auth, (req, res) => {
     res.status(201).json({ driver });
 })
 
-app.get('/api/cars:number', auth, (req, res) => {
-    let result = CARS.filter(item => ':' + item.number == req.params.number);
+app.get('/api/cars/:number', auth, (req, res) => {
+    let result = CARS.filter(item => item.number == req.params.number);
     res.status(200).json(result);
 })
 
-app.get('/api/drivers:lastName', auth, (req, res) => {
-    let result = DRIVERS.filter(item => ':' + item.lastName == req.params.lastName);
+app.get('/api/drivers/:lastName', auth, (req, res) => {
+    let result = DRIVERS.filter(item => item.lastName == req.params.lastName);
     res.status(200).json(result);
 })
 
-app.delete('/api/cars:id', auth, (req, res) => {
-    CARS = CARS.filter(item => ':' + item.id !== req.params.id);
+app.delete('/api/cars/:id', auth, (req, res) => {
+    CARS = CARS.filter(item => item.id !== req.params.id);
     res.status(200).json({ message: 'удален' });
 })
 
-app.delete('/api/drivers:id', auth, (req, res) => {
-    DRIVERS = DRIVERS.filter(item => ':' + item.id !== req.params.id);
+app.delete('/api/drivers/:id', auth, (req, res) => {
+    DRIVERS = DRIVERS.filter(item => item.id !== req.params.id);
     res.status(200).json({ message: 'удален' });
 })
 
-app.put('/api/drivers:id', auth, (req, res) => {
-    const index = DRIVERS.findIndex(item => ':' + item.id == req.params.id);
+app.put('/api/drivers/:id', auth, (req, res) => {
+    const index = DRIVERS.findIndex(item => item.id == req.params.id);
     DRIVERS[index] = req.body;
     res.status(200).json(DRIVERS[index]);
 })
 
-app.put('/api/cars:id', auth, (req, res) => {
-    const index = CARS.findIndex(item => ':' + item.id == req.params.id);
+app.put('/api/cars/:id', auth, (req, res) => {
+    const index = CARS.findIndex(item => item.id == req.params.id);
     CARS[index] = req.body;
     res.status(200).json(CARS[index]);
 })

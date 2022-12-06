@@ -59,7 +59,7 @@ class PostDriverData {
                 })
                     .then(() => {
                         if (i === this.cars.length - 1) {
-                            this.put('/api/drivers:' + `${editedData.id}`);
+                            this.put('/api/drivers/' + `${editedData.id}`);
                         }
                     });
             }
@@ -72,7 +72,7 @@ class PostDriverData {
                 if (editedData[key] !== this[key]) {
 
                     this.id = editedData.id;
-                    this.put('/api/drivers:' + `${editedData.id}`);
+                    this.put('/api/drivers/' + `${editedData.id}`);
                     return;
 
                 }
@@ -92,7 +92,7 @@ class PostDriverData {
     }
 
     deleteDriver() {
-        let response = request('/api/drivers:' + `${editedData.id}`, 'DELETE');
+        let response = request('/api/drivers/' + `${editedData.id}`, 'DELETE');
         response.then(res => {
             if (res) {
                 alert('измеенения внесены');
@@ -121,7 +121,7 @@ class PostCarData {
             if (key !== 'id') {
                 if (editedData[key] !== this[key]) {
                     this.id = editedData.id;
-                    this.put('/api/cars:' + `${editedData.id}`);
+                    this.put('/api/cars/' + `${editedData.id}`);
                     return;
                 }
             }
