@@ -80,45 +80,125 @@ app.get('/api/drivers', auth, (req, res) => {
 })
 
 app.post('/api/cars', auth, (req, res) => {
+
+    if (!(req.body.number && req.body.model && req.body.firm && req.body.year && req.body.owner && req.body.class)) {
+        res.status(405).json('Invalid input');
+        return;
+    }
+
     const car = { ...req.body, id: v4() };
     CARS.push(car);
     res.status(201).json({ car });
 })
 
 app.post('/api/drivers', auth, (req, res) => {
+    if (!(req.body.firstName && req.body.lastName && req.body.age && req.body.reyting && req.body.city && req.body.phone && req.body.dateBeginWork && req.body.cars)) {
+        res.status(405).json('Invalid input');
+    }
     const driver = { ...req.body, id: v4() };
     DRIVERS.push(driver);
     res.status(201).json({ driver });
 })
 
-app.get('/api/cars/:number', auth, (req, res) => {
-    let result = CARS.filter(item => item.number == req.params.number);
+app.get('/api/cars/:id', auth, (req, res) => {
+    if (typeof req.params.id !== 'string') {
+        res.status(405).json('Invalid ID validation');
+        return;
+    }
+
+    let result = CARS.filter(item => item.id == req.params.id);
+
+    if (!result.length) {
+        res.status(404).json('Car not found');
+        return;
+    }
+
     res.status(200).json(result);
 })
 
-app.get('/api/drivers/:lastName', auth, (req, res) => {
-    let result = DRIVERS.filter(item => item.lastName == req.params.lastName);
+app.get('/api/drivers/:id', auth, (req, res) => {
+    if (typeof req.params.id !== 'string') {
+        res.status(405).json('Invalid ID validation');
+        return;
+    }
+
+    let result = DRIVERS.filter(item => item.id == req.params.id);
+
+    if (!result.length) {
+        res.status(404).json('Driver not found');
+        return;
+    }
+
     res.status(200).json(result);
 })
 
 app.delete('/api/cars/:id', auth, (req, res) => {
+
+    if (typeof req.params.id !== 'string') {
+        res.status(405).json('Invalid ID validation');
+        return;
+    }
+
+    let carsLength = CARS.length;
     CARS = CARS.filter(item => item.id !== req.params.id);
-    res.status(200).json({ message: 'удален' });
+
+    if (CARS.length === carsLength) {
+        res.status(404).json('Car not found');
+        return;
+    }
+
+    res.status(204);
 })
 
 app.delete('/api/drivers/:id', auth, (req, res) => {
+
+    if (typeof req.params.id !== 'string') {
+        res.status(405).json('Invalid ID validation');
+        return;
+    }
+
+    let driversLength = DRIVERS.length;
     DRIVERS = DRIVERS.filter(item => item.id !== req.params.id);
-    res.status(200).json({ message: 'удален' });
+
+    if (DRIVERS.length === driversLength) {
+        res.status(404).json('Driver not found');
+        return;
+    }
+    res.status(204);
 })
 
 app.put('/api/drivers/:id', auth, (req, res) => {
+
+    if (typeof req.params.id !== 'string') {
+        res.status(405).json('Invalid ID validation');
+        return;
+    }
+
     const index = DRIVERS.findIndex(item => item.id == req.params.id);
+
+    if (index === -1) {
+        res.status(404).json('Driver not found');
+        return;
+    }
+
     DRIVERS[index] = req.body;
     res.status(200).json(DRIVERS[index]);
 })
 
 app.put('/api/cars/:id', auth, (req, res) => {
+
+    if (typeof req.params.id !== 'string') {
+        res.status(405).json('Invalid ID validation');
+        return;
+    }
+
     const index = CARS.findIndex(item => item.id == req.params.id);
+
+    if (index === -1) {
+        res.status(404).json('Car not found');
+        return;
+    }
+
     CARS[index] = req.body;
     res.status(200).json(CARS[index]);
 })

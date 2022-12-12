@@ -16,28 +16,30 @@ class PostDriverData {
         }
     }
 
-    postDriverCar() {
-        if (this.cars.length) {
+    postDriversCar(callback, index = 0) {
+        let response = new PostCarData(this.cars[index]).postCar();
+        response.then(res => {
 
-            for (let i = 0; i < this.cars.length; i++) {
-                let response = new PostCarData(this.cars[i]).postCar();
-                response.then(res => {
-                    this.cars[i] = res.car.number;
-                })
-                    .then(() => {
-                        if (i === this.cars.length - 1) {
-                            this.postDriver();
-                        }
-                    });
+            this.cars[index] = res.car.id;
+            if (!(index === this.cars.length - 1)) {
+                return this.postDriversCar(callback, index + 1);
             }
-        } else {
-            this.postDriver();
-        }
+
+            callback.apply(this);
+        })
     }
 
     postDriver() {
-        let resp = request('/api/drivers', 'POST', this);
-        resp.then(() => {
+        if (this.cars.length) {
+            this.postDriversCar(this.postDriverRequest);
+        } else {
+            this.postDriverRequest();
+        }
+    }
+
+    postDriverRequest() {
+        let response = request('/api/drivers', 'POST', this);
+        response.then(() => {
             alert('изменения внесены');
             container.innerHTML = '<div id="container"><button id="drivers">Водители</button> <button id="cars">Mашины</button> </div>';
         });
@@ -51,18 +53,7 @@ class PostDriverData {
                 this.cars[i] = editedData.cars[i];
             }
 
-            for (let i = editedData.cars.length; i < this.cars.length; i++) {
-
-                let response = new PostCarData(this.cars[i]).postCar();
-                response.then(res => {
-                    this.cars[i] = res.car.number;
-                })
-                    .then(() => {
-                        if (i === this.cars.length - 1) {
-                            this.put('/api/drivers/' + `${editedData.id}`);
-                        }
-                    });
-            }
+            this.postDriversCar(this.putDriverRequest, editedData.cars.length);
         }
 
         for (let key in editedData) {
@@ -72,17 +63,16 @@ class PostDriverData {
                 if (editedData[key] !== this[key]) {
 
                     this.id = editedData.id;
-                    this.put('/api/drivers/' + `${editedData.id}`);
+                    this.putDriverRequest();
                     return;
-
                 }
             }
         }
         alert('данные не были изменены');
     }
 
-    put(rout) {
-        let response = request(rout, 'PUT', this);
+    putDriverRequest() {
+        let response = request('/api/drivers/' + `${editedData.id}`, 'PUT', this);
         response.then(res => {
             if (res) {
                 alert('измеенения внесены');
@@ -92,7 +82,7 @@ class PostDriverData {
     }
 
     deleteDriver() {
-        let response = request('/api/drivers/' + `${editedData.id}`, 'DELETE');
+        let response = request('/api/drivers/' + `${driverData.id}`, 'DELETE');
         response.then(res => {
             if (res) {
                 alert('измеенения внесены');

@@ -61,35 +61,20 @@ document.body.addEventListener('click', (event) => {
             if (event.target.closest('#container').querySelector('#inputData')) {
                 let mainDriversData = document.querySelector('fieldset').querySelectorAll('input');
                 let carForms = document.querySelector('.carContainer').querySelectorAll('.driversCar');
-                new PostDriverData(mainDriversData, carForms).postDriverCar();
+                new PostDriverData(mainDriversData, carForms).postDriver();
                 return;
             }
         }
 
         if (event.target.closest('#container').querySelector('legend').textContent === 'Удалить водителя') {
-            let lastName = document.querySelector('#searchData').value;
-            new GettingData('/api/drivers', lastName).delete();
-            return;
-        }
-
-        if (event.target.closest('#container').querySelector('legend').textContent.match(/Удаление/)) {
-            let deletedData = new GettingData().getSelectedDriverData();
-            new GettingData('/api/drivers').deleteRequest(deletedData.id);
-            return;
-        }
-
-        if (event.target.closest('#container').querySelector('legend').textContent.match(/Редактирование/)) {
-            let editedDriverData = new GettingData().getSelectedDriverData();
-
-            container.innerHTML = '<legend>Изменение данных водителя</legend>';
-
-            new GettingData().entryDriverData(editedDriverData);
+            let id = document.querySelector('#searchData').value;
+            new GettingData('/api/drivers/', id).delete();
             return;
         }
 
         if (event.target.closest('#container').querySelector('legend').textContent == 'удалить данные машины') {
-            let number = document.querySelector('#searchData').value;
-            new GettingData('/api/cars', number).delete();
+            let id = document.querySelector('#searchData').value;
+            new GettingData('/api/cars/', id).delete();
             return;
         }
 
@@ -116,20 +101,20 @@ document.body.addEventListener('click', (event) => {
         }
 
         if (event.target.closest('#container').querySelector('legend').textContent == 'Редактировать данные водителя') {
-            let lastName = document.querySelector('#searchData').value;
+            let id = document.querySelector('#searchData').value;
 
             container.innerHTML = '<legend>Изменение данных водителя</legend>';
 
-            new GettingData('/api/drivers', lastName).showEditedDriverData('Редактирование');
+            new GettingData('/api/drivers/', id).entryDriverData();
             return;
         }
 
         if (event.target.closest('#container').querySelector('legend').textContent == 'Редактировать данные машины') {
-            let number = document.querySelector('#searchData').value;
+            let id = document.querySelector('#searchData').value;
 
             container.innerHTML = '<legend>Изменение данных машины</legend>';
 
-            new GettingData('/api/cars', number).showEditedCarData();
+            new GettingData('/api/cars/', id).showEditedCarData();
         }
     }
 
@@ -146,5 +131,21 @@ document.body.addEventListener('click', (event) => {
 
     if (event.target.className === 'deleteDriversCare') {
         event.target.closest('fieldset').outerHTML = '';
+    }
+
+    if (event.target.id === 'allCars') {
+        let result = (async function () {
+            return await request('/api/cars', 'GET');
+        })();
+
+        result.then(res => console.log(res))
+    }
+
+    if (event.target.id === 'allDrivers') {
+        let result = (async function () {
+            return await request('/api/drivers', 'GET');
+        })();
+
+        result.then(res => console.log(res))
     }
 })

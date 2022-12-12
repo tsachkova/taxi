@@ -118,7 +118,7 @@
                 }
             }
         },
-        "/cars/{number}": {
+        "/cars/{id}": {
             "get": {
                 "summary": "Get car by nunber",
                 "description": "Get car by number",
@@ -151,9 +151,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/cars/{id}": {
+            },
             "put": {
                 "summary": "Update the car",
                 "description": "Update the car",
@@ -213,14 +211,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "message": "удален"
-                            }
-                        }
+                    "204": {
+                        "description": "successful operation"
                     },
                     "400": {
                         "description": "Invalid status value",
@@ -297,7 +289,7 @@
                 }
             }
         },
-        "/drivers/{name}": {
+        "/drivers/{id}": {
             "get": {
                 "summary": "Get driver by name",
                 "description": "Get driver by name",
@@ -322,9 +314,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/drivers/{id}": {
+            },
             "put": {
                 "summary": "Update the driver",
                 "description": "Update the driver",
@@ -384,14 +374,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "message": "удален"
-                            }
-                        }
+                    "204": {
+                        "description": "successful operation"
                     },
                     "400": {
                         "description": "Invalid status value",
@@ -419,7 +403,30 @@
             "type": "object",
             "properties": {
                 "cars": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "class": {
+                                "type": "string"
+                            },
+                            "firm": {
+                                "type": "string"
+                            },
+                            "model": {
+                                "type": "string"
+                            },
+                            "number": {
+                                "type": "string"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "year": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 },
                 "firstName": {
                     "type": "string"
@@ -428,7 +435,7 @@
                     "type": "string"
                 },
                 "age": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "dateBeginWork": {
                     "type": "string"
@@ -437,7 +444,7 @@
                     "type": "string"
                 },
                 "reyting": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "city": {
                     "type": "string"
@@ -448,7 +455,30 @@
             "type": "object",
             "properties": {
                 "cars": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "class": {
+                                "type": "string"
+                            },
+                            "firm": {
+                                "type": "string"
+                            },
+                            "model": {
+                                "type": "string"
+                            },
+                            "number": {
+                                "type": "string"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "year": {
+                                "type": "number"
+                            }
+                        }
+                    }
                 },
                 "firstName": {
                     "type": "string"
@@ -457,18 +487,18 @@
                     "type": "string"
                 },
                 "age": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "dateBeginWork": {
-                    "type": "string"
-                },
-                "id": {
                     "type": "string"
                 },
                 "phone": {
                     "type": "string"
                 },
                 "reyting": {
+                    "type": "number"
+                },
+                "city": {
                     "type": "string"
                 }
             }
@@ -492,7 +522,7 @@
                     "type": "string"
                 },
                 "year": {
-                    "type": "string"
+                    "type": "number"
                 }
             }
         },
@@ -518,7 +548,7 @@
                     "type": "string"
                 },
                 "year": {
-                    "type": "string"
+                    "type": "number"
                 }
             }
         },
